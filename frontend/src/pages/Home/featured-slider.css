@@ -1,44 +1,44 @@
 /* src/pages/Home/featured-slider.css */
 
-/* 전체 영역: 위아래 여백 + 가운데 정렬 */
+/* ===== 공통 레이아웃 ===== */
+
 .featured-wrapper {
-    padding-top: 32px;              /* 헤더 아래 여유 */
-    padding-inline: 16px;
-    padding-bottom: 12px;
+    padding: 16px 0 8px;
 }
 
-/* 가운데만 넓게, 양 옆은 여백 */
 .featured-inner {
-    max-width: 1120px;              /* ✅ 여기 덕분에 양옆이 비어 보임 */
-    margin: 0 auto;
     position: relative;
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    border-radius: 24px;
+    overflow: hidden;
+    background: radial-gradient(circle at top, #111827, #020617);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.85);
 }
 
 /* 슬라이드 트랙 */
 .featured-track {
     display: flex;
-    overflow: hidden;
-    border-radius: 24px;
-    background: radial-gradient(circle at top, #111827, #020617);
-    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.85);
-    transform: translateZ(0);
-    transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+    width: 100%;
     will-change: transform;
 }
 
-/* 각 슬라이드 카드 */
+/* 각 슬라이드 카드 (기본: 가로 2열 레이아웃) */
 .featured-card {
-    flex: 0 0 auto;
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+    flex: 0 0 100%;
+    display: flex;
+    align-items: stretch;
     min-height: 260px;
     max-height: 360px;
     position: relative;
     overflow: hidden;
 }
 
-/* 텍스트 영역 */
+/* ===== 텍스트 영역 ===== */
+
 .featured-text {
+    flex: 1.1;
     padding: 24px 26px;
     display: flex;
     flex-direction: column;
@@ -70,6 +70,7 @@
 }
 
 /* 버튼들 */
+
 .featured-actions {
     display: flex;
     gap: 10px;
@@ -117,8 +118,10 @@
     background: rgba(15, 23, 42, 0.95);
 }
 
-/* 이미지 영역 */
+/* ===== 이미지 영역 ===== */
+
 .featured-image-wrap {
+    flex: 1.4;
     position: relative;
     overflow: hidden;
 }
@@ -132,7 +135,6 @@
     will-change: transform, filter;
 }
 
-/* 오른쪽에서 올라오는 살짝 어두운 그라디언트 */
 .featured-image-gradient {
     position: absolute;
     inset: 0;
@@ -142,13 +144,14 @@
     mix-blend-mode: multiply;
 }
 
-/* 카드 전체 hover 시 이미지 살짝 확대 */
+/* 카드 hover 시 이미지 살짝 확대 */
 .featured-card:hover .featured-image {
     transform: scale(1.08);
     filter: brightness(1.03);
 }
 
-/* 좌우 네비게이션 버튼 */
+/* ===== 좌우 네비게이션 버튼 ===== */
+
 .featured-nav {
     position: absolute;
     top: 50%;
@@ -170,11 +173,11 @@
 }
 
 .featured-nav-left {
-    left: -14px;
+    left: 8px;
 }
 
 .featured-nav-right {
-    right: -14px;
+    right: 8px;
 }
 
 .featured-nav:hover {
@@ -183,7 +186,8 @@
     box-shadow: 0 12px 26px rgba(0, 0, 0, 0.9);
 }
 
-/* 인디케이터 점 */
+/* ===== 인디케이터 점 ===== */
+
 .featured-dots {
     display: flex;
     justify-content: center;
@@ -207,41 +211,43 @@
     background: #e50914;
 }
 
+/* ===== 시청 중 섹션 empty 박스 ===== */
+
+.home-continue-empty-wrap {
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+.home-continue-empty-box {
+    margin-top: 10px;
+}
+
+.home-continue-empty-sub {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #d1d5db;
+}
+
 /* =========================
-   반응형
+   반응형 - 태블릿 이하
    ========================= */
 
 @media (max-width: 900px) {
+    .featured-inner {
+        border-radius: 18px;
+    }
+
     .featured-card {
-        grid-template-columns: minmax(0, 1fr);
+        flex-direction: column;
         max-height: none;
     }
 
-    .featured-image-wrap {
-        display: none; /* 모바일에서는 텍스트만 */
-    }
-
     .featured-text {
-        padding: 20px 18px 18px;
+        padding: 20px 18px 16px;
     }
 
-    .featured-inner {
-        max-width: 640px;
-    }
-
-    .featured-nav-left {
-        left: -6px;
-    }
-
-    .featured-nav-right {
-        right: -6px;
-    }
-}
-
-@media (max-width: 600px) {
-    .featured-wrapper {
-        padding-top: 64px;
-        padding-inline: 10px;
+    .featured-image-wrap {
+        height: 190px;
     }
 
     .featured-title {
@@ -250,44 +256,31 @@
 
     .featured-overview {
         font-size: 12px;
-    }
-
-    .featured-btn {
-        padding-inline: 14px;
+        max-height: 4.5em;
     }
 }
 
-/* 시청 중 섹션 제목 + empty 박스 래퍼 */
-.home-continue-empty-wrap {
-    margin-top: 24px;
-    margin-bottom: 16px;
-}
+/* =========================
+   반응형 - 모바일 (아이폰)
+   ========================= */
 
-/* empty 박스 위 여백만 약간 */
-.home-continue-empty-box {
-    margin-top: 10px;
-}
-
-/* 두 번째 안내 문구 스타일 */
-.home-continue-empty-sub {
-    margin-top: 8px;
-    font-size: 13px;
-    color: #d1d5db;
-}
-
-/* ===== Featured Slider 모바일 최적화 ===== */
 @media (max-width: 600px) {
     .featured-wrapper {
-        margin-top: -8px;
+        padding-top: 12px;
+        padding-bottom: 4px;
+        padding-inline: 0;
+    }
+
+    .featured-inner {
+        border-radius: 0;
     }
 
     .featured-card {
-        flex-direction: column;
-        padding: 18px 14px;
+        min-height: 220px;
     }
 
     .featured-text {
-        max-width: 100%;
+        padding: 18px 16px 14px;
     }
 
     .featured-title {
@@ -296,60 +289,11 @@
 
     .featured-overview {
         font-size: 0.9rem;
-        max-height: 5.5rem;
-    }
-
-    .featured-image-wrap {
-        margin-top: 10px;
-        height: 190px;
+        max-height: 5.2rem;
     }
 
     .featured-nav {
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
     }
-
-    .featured-dots {
-        bottom: 10px;
-    }
-}
-
-/* ===== Featured Slider 모바일 보정 ===== */
-@media (max-width: 768px) {
-    .featured-wrapper {
-        margin: 0 -16px 12px; /* 양쪽으로 살짝 늘려서 화면 꽉 차게 */
-    }
-
-    .featured-inner {
-        border-radius: 0;
-    }
-
-    .featured-card {
-        min-height: 260px;
-    }
-
-    .featured-text {
-        padding: 16px;
-    }
-
-    .featured-title {
-        font-size: 1.4rem;
-    }
-
-    .featured-overview {
-        font-size: 0.9rem;
-        max-height: 4.5em;
-    }
-}
-
-/* 1024px 이하에서는 슬라이더가 화면 전체 폭을 쓰게 */
-@media (max-width: 1024px) {
-    .featured-inner {
-        max-width: 100%;
-    }
-}
-
-.featured-track {
-    width: 100%;
-    max-width: 100%;
 }

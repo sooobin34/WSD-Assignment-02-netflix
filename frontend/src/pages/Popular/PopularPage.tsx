@@ -136,8 +136,17 @@ export const PopularPage = () => {
 
         const doLoad = async () => {
             try {
-                // Infinite View는 인기 영화 기준 (장르 필터 X)
-                const movies = await fetchPopular(currentPage);
+                const genreId =
+                    selectedGenre === "all" ? undefined : selectedGenre;
+
+                const movies =
+                    genreId === undefined
+                        ? await fetchPopular(currentPage)
+                        : await fetchDiscover({
+                            page: currentPage,
+                            with_genres: genreId,
+                            sort_by: "popularity.desc",
+                        });
 
                 setScrollMovies((prev) => [...prev, ...movies]);
 
@@ -157,7 +166,7 @@ export const PopularPage = () => {
         };
 
         void doLoad();
-    }, [scrollLoading, hasMore, view, scrollPage]);
+    }, [scrollLoading, hasMore, view, scrollPage, selectedGenre]);
 
     /* ✅ Infinite로 전환될 때 최초 1번 로딩 */
     useEffect(() => {
@@ -198,14 +207,23 @@ export const PopularPage = () => {
     const handleSwitchToInfinite = () => {
         setView("infinite");
         window.scrollTo({ top: 0 });
-        // ⛔ 여기선 loadMoreScroll 호출 안 함 (effect가 처리)
+        // 최초 로드는 위 useEffect에서 처리
     };
 
     const handleGenreChange = (value: string) => {
         const next = value === "" || value === "all" ? "all" : Number(value);
+
         setSelectedGenre(next);
+
+        // Table View 초기화
         setTablePage(1);
         setTableMovies([]);
+
+        // Infinite Scroll도 장르 바꾸면 새로 로딩하도록 초기화
+        setScrollMovies([]);
+        setScrollPage(1);
+        setHasMore(true);
+
         window.scrollTo({ top: 0 });
     };
 
@@ -281,10 +299,10 @@ export const PopularPage = () => {
                 </div>
             </header>
 
-            {/* 장르 필터 (Table View 용) */}
+            {/* 장르 필터 (두 View 공통) */}
             {genres.length > 0 && (
                 <div className="popular-genre-bar">
-                    <span>장르</span>
+                    <span className="popular-genre-label">장르</span>
                     <select
                         value={selectedGenre === "all" ? "" : selectedGenre}
                         onChange={(e) => handleGenreChange(e.target.value)}

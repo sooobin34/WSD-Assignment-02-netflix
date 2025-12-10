@@ -180,12 +180,17 @@
 .search-table-wrap {
     margin-top: 24px;
     border-radius: 8px;
-    overflow: hidden;
     border: 1px solid #222;
+
+    /* ✅ 모바일에서 오른쪽이 짤리지 않도록 */
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .search-table {
     width: 100%;
+    min-width: 560px;        /* ✅ 칼럼이 너무 줄어들지 않게 */
     border-collapse: collapse;
     background: #101010;
 }

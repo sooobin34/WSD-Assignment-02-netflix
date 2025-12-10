@@ -9,22 +9,40 @@ import { AccountMenu } from "../account/AccountMenu";
 export const Header = () => {
     const { userEmail } = useAuth();
     const { activeProfile } = useProfile();
+
     const [isAccountOpen, setIsAccountOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // ✅ 모바일 메뉴 상태
 
     // 프로필 이름이 있으면 우선 사용, 없으면 이메일 앞부분 사용
     const displayName =
         activeProfile?.name ?? (userEmail?.split("@")[0] ?? "사용자");
 
+    const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+    const closeMenu = () => setIsMenuOpen(false);
+
     return (
         <>
             <header className="app-header">
-                {/* 왼쪽 : 로고 + 네비게이션 */}
+                {/* 왼쪽 : 햄버거 + 로고 + 네비게이션 */}
                 <div className="header-left">
-                    <Link to="/" className="logo">
-                        <span className="logo-icon" aria-hidden="true" />
+                    {/* ✅ 석삼자 햄버거 버튼 (모바일에서만 보이도록 CSS 처리) */}
+                    <button
+                        type="button"
+                        className="menu-toggle"
+                        onClick={toggleMenu}
+                        aria-label={isMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
+                    >
+                        <span className="menu-bar" />
+                        <span className="menu-bar" />
+                        <span className="menu-bar" />
+                    </button>
+
+                    {/* ✅ 노란 달 제거 → 텍스트만 */}
+                    <Link to="/" className="logo" onClick={closeMenu}>
                         <span className="logo-text">MyFlix</span>
                     </Link>
 
+                    {/* 데스크탑/태블릿용 메인 네비게이션 */}
                     <nav className="main-nav">
                         <NavLink
                             to="/"
@@ -79,7 +97,54 @@ export const Header = () => {
                 </div>
             </header>
 
-            {/* 계정 설정 패널 */}
+            {/* ✅ 모바일용 드롭다운 네비게이션 (계정 설정 탭 제거) */}
+            {isMenuOpen && (
+                <nav className="mobile-nav">
+                    <NavLink
+                        to="/"
+                        end
+                        className={({ isActive }) =>
+                            "mobile-nav-link" +
+                            (isActive ? " mobile-nav-link-active" : "")
+                        }
+                        onClick={closeMenu}
+                    >
+                        Home
+                    </NavLink>
+                    <NavLink
+                        to="/popular"
+                        className={({ isActive }) =>
+                            "mobile-nav-link" +
+                            (isActive ? " mobile-nav-link-active" : "")
+                        }
+                        onClick={closeMenu}
+                    >
+                        Popular
+                    </NavLink>
+                    <NavLink
+                        to="/search"
+                        className={({ isActive }) =>
+                            "mobile-nav-link" +
+                            (isActive ? " mobile-nav-link-active" : "")
+                        }
+                        onClick={closeMenu}
+                    >
+                        Search
+                    </NavLink>
+                    <NavLink
+                        to="/wishlist"
+                        className={({ isActive }) =>
+                            "mobile-nav-link" +
+                            (isActive ? " mobile-nav-link-active" : "")
+                        }
+                        onClick={closeMenu}
+                    >
+                        Wishlist
+                    </NavLink>
+                </nav>
+            )}
+
+            {/* 계정 설정 패널 (공통) */}
             {isAccountOpen && (
                 <AccountMenu onClose={() => setIsAccountOpen(false)} />
             )}

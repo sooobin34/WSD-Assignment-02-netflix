@@ -16,18 +16,20 @@
     to   { transform: rotate(360deg); }
 }
 
-/* ================================
-   컨테이너 (공통 레이아웃)
-   ================================ */
-
+/* ==================================
+   컨테이너 (헤더/다른 페이지와 폭 맞추기)
+   ================================== */
 .popular-container {
     width: 100%;
-    margin: 0;
+    max-width: 1120px;          /* ✅ Search랑 동일: 가운데 1120px 박스 */
+    margin: 0 auto;             /* ✅ 가운데 정렬 */
+
     padding-top: 40px;
-    padding-inline: 4%;      /* ✅ Search / Wishlist 와 동일 */
+    padding-inline: 16px;       /* ✅ 기본 좌우 여백 */
     padding-bottom: 32px;
+
+    background-color: #000;     /* ✅ 다른 페이지와 통일 */
     min-height: 100vh;
-    background-color: #000;  /* ✅ 다른 페이지와 동일한 블랙 */
     color: #fff;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -35,7 +37,6 @@
 /* ================================
    헤더
    ================================ */
-
 .popular-header {
     display: flex;
     align-items: center;
@@ -93,7 +94,6 @@
 /* ================================
    장르 필터 바
    ================================ */
-
 .popular-genre-bar {
     margin-top: 10px;
     margin-bottom: 16px;
@@ -120,7 +120,6 @@
 /* ================================
    에러 / 로딩 표시
    ================================ */
-
 .popular-error {
     margin-bottom: 16px;
     color: var(--netflix-red);
@@ -144,7 +143,6 @@
 /* ================================
    래퍼
    ================================ */
-
 .table-wrap,
 .scroll-wrap {
     margin-top: 8px;
@@ -158,7 +156,6 @@
 /* ================================
    그리드
    ================================ */
-
 .popular-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -168,7 +165,6 @@
 /* ================================
    카드
    ================================ */
-
 .popular-card {
     position: relative;
     border: none;
@@ -277,7 +273,6 @@
 /* ================================
    Table View: 페이지네이션
    ================================ */
-
 .popular-pagination {
     margin-top: 40px;
     display: flex;
@@ -321,7 +316,6 @@
 /* ================================
    Infinite View: TOP 버튼
    ================================ */
-
 .popular-top-btn {
     position: fixed;
     right: 24px;
@@ -341,23 +335,25 @@
     z-index: 9999;
 }
 
-/* ================================
-   반응형 - 모바일
-   ================================ */
-
-@media (max-width: 600px) {
+/* ==================================
+   반응형 (태블릿/모바일)
+   ================================== */
+@media (max-width: 768px) {
     .popular-container {
-        padding-inline: 8px;
+        padding-top: 32px;
+        padding-inline: 4%;      /* ✅ Search랑 똑같이 %로 변경 */
     }
 
+    .popular-title {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 600px) {
     .popular-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
-    }
-
-    .popular-title {
-        font-size: 1.4rem;
     }
 
     .view-toggle {

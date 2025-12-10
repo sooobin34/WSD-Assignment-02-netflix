@@ -209,7 +209,15 @@ export const PopularPage = () => {
     /* ===== 핸들러들 ===== */
 
     const handleTopClick = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        // 1) 인기 영화 페이지 컨테이너를 기준으로 스크롤
+        const container = document.querySelector(".popular-container");
+
+        if (container && "scrollIntoView" in container) {
+            container.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+            // 2) 혹시 몰라서 window도 같이 처리
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
     };
 
     const handleSwitchToTable = () => {
